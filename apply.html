@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BananaSMP | Staff Application</title>
+    
+    <link rel="icon" type="image/png" href="monkey-icon.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            font-weight: 900;
+        }
+
+        body {
+            background-color: #121212;
+            color: #fff;
+            overflow-x: hidden;
+            font-size: 110%;
+        }
+
+        /* Background Video Styling */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Main Content Wrapper */
+        .hero-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Top Bar Container for Navbar & Back Button */
+        .top-navigation {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 45px;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: normal;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover, .navbar a.active {
+            color: #e4be57;
+        }
+
+        /* Back Button Styling */
+        .back-btn {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .back-btn:hover {
+            background-color: #e4be57;
+            color: #121212;
+            border-color: #e4be57;
+        }
+
+        /* Main Header Layout */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 55px;
+        }
+
+        .header-box {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 310px;
+        }
+
+        .left-box { justify-content: flex-start; }
+        .right-box { justify-content: flex-end; }
+
+        .icon-circle {
+            width: 55px;
+            height: 55px;
+            background-color: #bd9543;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+
+        .box-text {
+            margin: 0 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .box-text h3 {
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .box-text p {
+            color: #e4be57;
+            font-size: 1.05rem;
+            margin-top: 4px;
+        }
+
+        .text-right { text-align: right; }
+
+        .logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-logo {
+            max-width: 280px;
+            height: auto;
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
+            transition: transform 0.2s;
+        }
+
+        .logo-container a:hover .main-logo {
+            transform: scale(1.03);
+        }
+
+        /* Title Style */
+        .section-title {
+            font-size: 2.2rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-top: 10px;
+            margin-bottom: 35px;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Form Container Design */
+        .form-container {
+            width: 100%;
+            max-width: 750px;
+            background-color: rgba(25, 25, 25, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            margin-bottom: 60px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 1.05rem;
+            color: #e4be57;
+            letter-spacing: 0.3px;
+        }
+
+        /* Input and Textarea Styling */
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            background-color: rgba(15, 15, 15, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 12px 15px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: normal;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e4be57;
+            background-color: rgba(10, 10, 10, 0.9);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 110px;
+            font-family: sans-serif;
+            font-weight: normal;
+        }
+
+        /* Submit Button Style */
+        .submit-btn {
+            width: 100%;
+            background-color: #e4be57;
+            color: #121212;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            text-transform: uppercase;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(228, 190, 87, 0.2);
+        }
+
+        .submit-btn:hover {
+            background-color: #bd9543;
+            color: #fff;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.99);
+        }
+
+        /* Success Message Popup Styling */
+        .copy-popup {
+            position: fixed;
+            bottom: 25px;
+            right: -450px; /* Hidden deeper to make sure no parts of the popup peek out */
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Colors for IP Copy Toast */
+        #copy-toast {
+            background-color: #a3e635;
+            color: #14532d;
+        }
+
+        /* Colors for Submit Toast */
+        #submit-toast {
+            background-color: #38bdf8;
+            color: #0369a1;
+        }
+
+        .copy-popup.show {
+            right: 25px;
+        }
+
+        /* Small responsive tweak for top navigation */
+        @media (max-width: 600px) {
+            .top-navigation {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay loop muted playsinline class="video-background">
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
+    <div class="video-overlay"></div>
+
+    <div class="hero-wrapper">
+        
+        <div class="top-navigation">
+            <nav class="navbar">
+                <a href="index.html">Home</a>
+                <a href="rules.html">Rules</a>
+                <a href="staff.html" class="active">Staff</a>
+                <a href="yt-apps.html">Yt Applications</a>
+            </nav>
+            
+            <a href="staff.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Staff
+            </a>
+        </div>
+
+        <header class="main-header">
+            <div class="header-box left-box" onclick="copyIP()">
+                <div class="icon-circle"><i class="fas fa-play"></i></div>
+                <div class="box-text">
+                    <h3>BANANASMP.MCSH.IO</h3>
+                    <p id="ip-text">Copy IP</p>
+                </div>
+            </div>
+
+            <div class="logo-container">
+                <a href="index.html"><img src="logo.png" alt="Banana SMP Logo" class="main-logo"></a>
+            </div>
+
+            <div class="header-box right-box" onclick="window.open('https://discord.gg/Jwrk9y2Ape', '_blank');">
+                <div class="box-text text-right">
+                    <h3>DISCORD SERVER</h3>
+                    <p>Join Now</p>
+                </div>
+                <div class="icon-circle"><i class="fab fa-discord"></i></div>
+            </div>
+        </header>
+
+        <h2 class="section-title">Staff Application</h2>
+
+        <div class="form-container">
+            <form id="staffForm" onsubmit="handleFormSubmit(event)">
+                
+                <div class="form-group">
+                    <label for="ign"><i class="fas fa-gamepad"></i> Minecraft Username (IGN):</label>
+                    <input type="text" id="ign" placeholder="Username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="discord"><i class="fab fa-discord"></i> Discord Username & Tag:</label>
+                    <input type="text" id="discord" placeholder="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="age"><i class="fas fa-birthday-cake"></i> How old are you?</label>
+                    <input type="text" id="age" placeholder="Your Age" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience"><i class="fas fa-history"></i> Do you have any prior staff experience?</label>
+                    <textarea id="experience" placeholder="Tell us if you have worked on other servers before..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="why"><i class="fas fa-question-circle"></i> Why do you want to become staff on BananaSMP?</label>
+                    <textarea id="why" placeholder="Why should we choose you over other players?" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="time"><i class="fas fa-clock"></i> How many hours can you dedicate daily?</label>
+                    <input type="text" id="time" placeholder="e.g. 3-4 hours" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Copy IP Notification -->
+    <div id="copy-toast" class="copy-popup">
+        <i class="fas fa-check-circle"></i> Server IP copied to clipboard!
+    </div>
+
+    <!-- Application Submit Notification (Initially hidden, triggers on submit) -->
+    <div id="submit-toast" class="copy-popup">
+        <i class="fas fa-paper-plane"></i> Application submitted successfully!
+    </div>
+
+    <script>
+        // IP Copying Script
+        function copyIP() {
+            const ip = "BANANASMP.MCSH.IO";
+            navigator.clipboard.writeText(ip).then(() => {
+                const ipText = document.getElementById("ip-text");
+                ipText.innerText = "Copied!";
+                ipText.style.color = "#a3e635"; 
+                
+                const popup = document.getElementById("copy-toast");
+                popup.classList.add("show");
+                
+                setTimeout(() => {
+                    popup.classList.remove("show");
+                    ipText.innerText = "Copy IP";
+                    ipText.style.color = "#e4be57";
+                }, 3000);
+            }).catch(err => {
+                console.error("IP copy error: ", err);
+            });
+        }
+
+        // Form Submit Handler with Discord Webhook
+        function handleFormSubmit(event) {
+            event.preventDefault(); 
+            
+            const ign = document.getElementById("ign").value;
+            const discord = document.getElementById("discord").value;
+            const age = document.getElementById("age").value;
+            const experience = document.getElementById("experience").value;
+            const why = document.getElementById("why").value;
+            const time = document.getElementById("time").value;
+
+            const webhookUrl = "https://discord.com/api/webhooks/1506287272415465546/D3O7KKANE4CxaGV0DpCFRpas9OuObRpP2gOTXDnTThsi8Rzs7B_kyl9jhOT-IlAJKvpP";
+
+            const discordMessage = {
+                username: "BananaSMP Applications",
+                avatar_url: "https://i.imgur.com/8Nn6SgR.png", 
+                embeds: [{
+                    title: "📩 New Staff Application Submitted!",
+                    color: 14991063, 
+                    fields: [
+                        { name: "🎮 Minecraft Username (IGN)", value: ign, inline: true },
+                        { name: "💬 Discord Username", value: discord, inline: true },
+                        { name: "🎂 Age", value: age, inline: true },
+                        { name: "⏰ Daily Dedication", value: time, inline: true },
+                        { name: "📜 Prior Experience", value: experience },
+                        { name: "❓ Why BananaSMP?", value: why }
+                    ],
+                    footer: {
+                        text: "BananaSMP Staff System"
+                    },
+                    timestamp: new Date()
+                }]
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(discordMessage)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show the blue submit popup only when the response is ok
+                    const submitToast = document.getElementById("submit-toast");
+                    submitToast.classList.add("show");
+                    
+                    document.getElementById("staffForm").reset();
+                    
+                    // Keep popup visible for 3 seconds before moving back to staff.html
+                    setTimeout(() => {
+                        submitToast.classList.remove("show");
+                        location.href = 'staff.html';
+                    }, 3000);
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Error sending to discord:", error);
+                alert("Could not submit application. Check your connection.");
+            });
+        }
+    </script>
+
+</body>
+</html>

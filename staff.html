@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BananaSMP | Staff</title>
+    
+    <link rel="icon" type="image/png" href="monkey-icon.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            font-weight: 900;
+        }
+
+        body {
+            background-color: #121212;
+            color: #fff;
+            overflow-x: hidden;
+            font-size: 110%;
+        }
+
+        /* Background Video Styling */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Main Content Wrapper */
+        .hero-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Top Bar Container for Navbar & Back Button */
+        .top-navigation {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 45px;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: normal;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover, .navbar a.active {
+            color: #e4be57;
+        }
+
+        /* Back Button Styling (Same as apply.html) */
+        .back-btn {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .back-btn:hover {
+            background-color: #e4be57;
+            color: #121212;
+            border-color: #e4be57;
+        }
+
+        /* Main Header Layout */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 55px;
+        }
+
+        .header-box {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 310px;
+        }
+
+        .left-box { justify-content: flex-start; }
+        .right-box { justify-content: flex-end; }
+
+        .icon-circle {
+            width: 55px;
+            height: 55px;
+            background-color: #bd9543;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+
+        .box-text {
+            margin: 0 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .box-text h3 {
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .box-text p {
+            color: #e4be57;
+            font-size: 1.05rem;
+            margin-top: 4px;
+        }
+
+        .text-right { text-align: right; }
+
+        .logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-logo {
+            max-width: 280px;
+            height: auto;
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
+            transition: transform 0.2s;
+        }
+
+        .logo-container a:hover .main-logo {
+            transform: scale(1.03);
+        }
+
+        /* Title Style */
+        .section-title {
+            font-size: 2.2rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-top: 10px;
+            margin-bottom: 35px;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Centered Staff Main Area Container */
+        .staff-container-wrap {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        /* Responsive Grid for Staff cards */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Staff Card Design */
+        .staff-card {
+            background-color: rgba(25, 25, 25, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-4px);
+            border-color: #e4be57;
+        }
+
+        /* Light Container for Skin Visibility */
+        .staff-img-container {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .staff-avatar {
+            max-height: 140px;
+            object-fit: contain;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4));
+        }
+
+        .staff-name {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .staff-role {
+            font-size: 0.95rem;
+            color: #e4be57;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: rgba(228, 190, 87, 0.1);
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Group wrapper for multiple buttons */
+        .card-buttons-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* General Action Button Styles */
+        .staff-btn {
+            width: 100%;
+            background-color: #e4be57;
+            color: #121212;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            text-transform: uppercase;
+        }
+
+        .staff-btn:hover {
+            background-color: #bd9543;
+            color: #fff;
+        }
+
+        /* Darker Accent variant for Apply Button */
+        .staff-btn.btn-secondary {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .staff-btn.btn-secondary:hover {
+            background-color: #e4be57;
+            color: #121212;
+            border-color: #e4be57;
+        }
+
+        /* Copy Popup Notification Styling */
+        .copy-popup {
+            position: fixed;
+            bottom: 25px;
+            right: -350px;
+            background-color: #a3e635;
+            color: #14532d;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copy-popup.show {
+            right: 25px;
+        }
+
+        /* Small responsive tweak for top navigation */
+        @media (max-width: 600px) {
+            .top-navigation {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay loop muted playsinline class="video-background">
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
+    <div class="video-overlay"></div>
+
+    <div class="hero-wrapper">
+        
+        <div class="top-navigation">
+            <nav class="navbar">
+                <a href="index.html">Home</a>
+                <a href="rules.html">Rules</a>
+                <a href="staff.html" class="active">Staff</a>
+                <a href="yt-apps.html">Yt Applications</a>
+            </nav>
+            
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+
+        <header class="main-header">
+            <div class="header-box left-box" onclick="copyIP()">
+                <div class="icon-circle"><i class="fas fa-play"></i></div>
+                <div class="box-text">
+                    <h3>BANANASMP.MCSH.IO</h3>
+                    <p id="ip-text">Copy IP</p>
+                </div>
+            </div>
+
+            <div class="logo-container">
+                <a href="index.html"><img src="logo.png" alt="Banana SMP Logo" class="main-logo"></a>
+            </div>
+
+            <div class="header-box right-box" onclick="window.open('https://discord.gg/Jwrk9y2Ape', '_blank');">
+                <div class="box-text text-right">
+                    <h3>DISCORD SERVER</h3>
+                    <p>Join Now</p>
+                </div>
+                <div class="icon-circle"><i class="fab fa-discord"></i></div>
+            </div>
+        </header>
+
+        <h2 class="section-title">Staff Team</h2>
+
+        <div class="staff-container-wrap">
+            
+            <main class="staff-grid">
+                
+                <div class="staff-card">
+                    <div class="staff-img-container">
+                        <img src="skin.png" alt="Owner Skin Avatar" class="staff-avatar">
+                    </div>
+                    <h3 class="staff-name">CyberWarrior64</h3>
+                    <span class="staff-role">Owner</span>
+                    
+                    <div class="card-buttons-group">
+                        <button class="staff-btn" onclick="window.open('https://discord.gg/Jwrk9y2Ape', '_blank');">Contact</button>
+                        <button class="staff-btn btn-secondary" onclick="location.href='apply.html'">Apply for Staff</button>
+                    </div>
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+
+    <div id="copy-toast" class="copy-popup">
+        <i class="fas fa-check-circle"></i> Server IP copied to clipboard!
+    </div>
+
+    <script>
+        function copyIP() {
+            const ip = "BANANASMP.MCSH.IO";
+            navigator.clipboard.writeText(ip).then(() => {
+                const ipText = document.getElementById("ip-text");
+                ipText.innerText = "Copied!";
+                ipText.style.color = "#a3e635"; 
+                
+                const popup = document.getElementById("copy-toast");
+                popup.classList.add("show");
+                
+                setTimeout(() => {
+                    popup.classList.remove("show");
+                    ipText.innerText = "Copy IP";
+                    ipText.style.color = "#e4be57";
+                }, 3000);
+            }).catch(err => {
+                console.error("IP copy error: ", err);
+            });
+        }
+    </script>
+
+</body>
+</html>
