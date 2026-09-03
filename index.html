@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BananaSMP | Welcome</title>
+    
+    <link rel="icon" type="image/png" href="monkey-icon.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* Custom BananaSMP Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e4be57;
+            border-radius: 6px;
+            border: 3px solid #121212;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3e635;
+        }
+
+        /* Firefox Support */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #e4be57 #121212;
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            font-weight: 900;
+        }
+
+        body {
+            background-color: #121212;
+            color: #fff;
+            overflow-x: hidden;
+            font-size: 110%;
+        }
+
+        /* Background Video Styling */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Entry Animation for Main Wrapper */
+        .hero-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Top Bar Container for Navbar */
+        .top-navigation {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 45px;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: normal;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #e4be57;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .navbar a:hover::after, .navbar a.active::after {
+            width: 100%;
+        }
+
+        .navbar a:hover, .navbar a.active {
+            color: #e4be57;
+        }
+
+        /* Main Header Layout */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 55px;
+        }
+
+        .header-box {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 310px;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .header-box:hover {
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .header-box:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .left-box { justify-content: flex-start; }
+        .right-box { justify-content: flex-end; }
+
+        .icon-circle {
+            width: 55px;
+            height: 55px;
+            background-color: #bd9543;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .header-box:hover .icon-circle {
+            transform: rotate(15deg);
+            background-color: #e4be57;
+        }
+
+        .box-text {
+            margin: 0 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .box-text h3 {
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .box-text p {
+            color: #e4be57;
+            font-size: 1.05rem;
+            margin-top: 4px;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .text-right { text-align: right; }
+
+        .logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-logo {
+            max-width: 280px;
+            height: auto;
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
+            animation: float 4s ease-in-out infinite;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .logo-container a:hover .main-logo {
+            filter: drop-shadow(0px 8px 20px rgba(228, 190, 87, 0.4));
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 45px;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+        }
+
+        .card {
+            background-color: #e4be57;
+            color: #fff;
+            border-radius: 12px;
+            padding: 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 210px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(228, 190, 87, 0.3);
+        }
+
+        .card:active {
+            transform: translateY(-1px) scale(0.99);
+        }
+
+        .card-content h2 {
+            font-size: 3rem;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .card-content p {
+            font-size: 1.25rem;
+            color: #fff;
+            opacity: 0.95;
+            margin-top: 6px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .card-img {
+            max-height: 150px;
+            max-width: 160px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        /* Why BananaSMP Section Styling */
+        .why-section {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .why-title {
+            font-size: 2.2rem;
+            color: #e4be57;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+
+        .feature-card {
+            background-color: rgba(15, 15, 15, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px 25px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: #e4be57;
+            box-shadow: 0 12px 25px rgba(228, 190, 87, 0.15);
+        }
+
+        .feature-card h3 {
+            color: #e4be57;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .feature-card p {
+            color: #cccccc;
+            font-size: 1rem;
+            line-height: 1.3;
+            letter-spacing: -0.2px;
+            font-weight: normal;
+        }
+
+        /* Copy Popup Notification Styling */
+        .copy-popup {
+            position: fixed;
+            bottom: 25px;
+            right: -350px;
+            background-color: #a3e635;
+            color: #14532d;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copy-popup.show {
+            right: 25px;
+        }
+
+        /* Keyframe Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .features-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .top-navigation {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay loop muted playsinline class="video-background">
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
+    <div class="video-overlay"></div>
+
+    <div class="hero-wrapper">
+        
+        <!-- Top Navigation without Back Button -->
+        <div class="top-navigation">
+            <nav class="navbar">
+                <a href="index.html" class="active">Home</a>
+                <a href="rules.html">Rules</a>
+                <a href="staff.html">Staff</a> 
+                <a href="yt-apps.html">Yt Applications</a>
+            </nav>
+        </div>
+
+        <header class="main-header">
+            <div class="header-box left-box" onclick="copyIP()">
+                <div class="icon-circle"><i class="fas fa-play"></i></div>
+                <div class="box-text">
+                    <h3>BANANASMP.MCSH.IO</h3>
+                    <p id="ip-text">Copy IP</p>
+                </div>
+            </div>
+
+            <div class="logo-container">
+                <a href="index.html"><img src="logo.png" alt="Banana SMP Logo" class="main-logo"></a>
+            </div>
+
+            <div class="header-box right-box" onclick="window.open('https://discord.gg/Jwrk9y2Ape', '_blank');">
+                <div class="box-text text-right">
+                    <h3>DISCORD SERVER</h3>
+                    <p>Join Now</p>
+                </div>
+                <div class="icon-circle"><i class="fab fa-discord"></i></div>
+            </div>
+        </header>
+
+        <section class="cards-grid">
+            <a href="ranks.html" class="card-link">
+                <div class="card">
+                    <div class="card-content">
+                        <h2>RANKS</h2>
+                        <p>Click to view</p>
+                    </div>
+                    <img src="ranks.png" alt="Ranks" class="card-img">
+                </div>
+            </a>
+        </section>
+
+        <section class="why-section">
+            <h2 class="why-title">Why BananaSMP?</h2>
+            <div class="features-grid">
+                
+                <div class="feature-card">
+                    <h3>LIFESTEAL</h3>
+                    <p>Balanced economy, custom features, and smooth gameplay experience.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>EVENTS</h3>
+                    <p>Weekly server events, giveaways, tournaments, and competitions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>ANTI-CHEAT</h3>
+                    <p>Advanced protection systems for fair and clean PvP gameplay.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <div id="copy-toast" class="copy-popup">
+        <i class="fas fa-check-circle"></i> Server IP copied to clipboard!
+    </div>
+
+    <script>
+        function copyIP() {
+            const ip = "BANANASMP.MCSH.IO";
+            navigator.clipboard.writeText(ip).then(() => {
+                const ipText = document.getElementById("ip-text");
+                ipText.innerText = "Copied!";
+                ipText.style.color = "#a3e635"; 
+                
+                const popup = document.getElementById("copy-toast");
+                popup.classList.add("show");
+                
+                setTimeout(() => {
+                    popup.classList.remove("show");
+                    ipText.innerText = "Copy IP";
+                    ipText.style.color = "#e4be57";
+                }, 3000);
+            }).catch(err => {
+                console.error("IP copy error: ", err);
+            });
+        }
+    </script>
+
+</body>
+</html>

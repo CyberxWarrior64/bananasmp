@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BananaSMP | YT Applications</title>
+    
+    <link rel="icon" type="image/png" href="monkey-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* Custom BananaSMP Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e4be57;
+            border-radius: 6px;
+            border: 3px solid #121212;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3e635;
+        }
+
+        /* Firefox Support */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #e4be57 #121212;
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            font-weight: 900;
+        }
+
+        body {
+            background-color: #121212;
+            color: #fff;
+            overflow-x: hidden;
+            font-size: 110%;
+        }
+
+        /* Background Video Styling */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Main Content Wrapper */
+        .hero-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Top Bar Container for Navbar & Back Button */
+        .top-navigation {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 45px;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: normal;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #e4be57;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .navbar a:hover::after, .navbar a.active::after {
+            width: 100%;
+        }
+
+        .navbar a:hover, .navbar a.active {
+            color: #e4be57;
+        }
+
+        /* Back Button Styling */
+        .back-btn {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .back-btn:hover {
+            background-color: #e4be57;
+            color: #121212;
+            border-color: #e4be57;
+            transform: translateY(-2px);
+        }
+
+        .back-btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Main Header Layout */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 55px;
+        }
+
+        .header-box {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 310px;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .header-box:hover {
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .header-box:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .left-box { justify-content: flex-start; }
+        .right-box { justify-content: flex-end; }
+
+        .icon-circle {
+            width: 55px;
+            height: 55px;
+            background-color: #bd9543;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .header-box:hover .icon-circle {
+            transform: rotate(15deg);
+            background-color: #e4be57;
+        }
+
+        .box-text {
+            margin: 0 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .box-text h3 {
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .box-text p {
+            color: #e4be57;
+            font-size: 1.05rem;
+            margin-top: 4px;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .text-right { text-align: right; }
+
+        .logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-logo {
+            max-width: 280px;
+            height: auto;
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
+            animation: float 4s ease-in-out infinite;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .logo-container a:hover .main-logo {
+            filter: drop-shadow(0px 8px 20px rgba(228, 190, 87, 0.4));
+        }
+
+        /* Form Title Style */
+        .form-title {
+            font-size: 2.2rem;
+            color: #ffffff;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: 10px;
+            margin-bottom: 35px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Form Container Design */
+        .form-container {
+            width: 100%;
+            max-width: 750px;
+            background-color: rgba(25, 25, 25, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            margin-bottom: 60px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            border-color: rgba(228, 190, 87, 0.3);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.8);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 1.05rem;
+            color: #e4be57;
+            letter-spacing: 0.3px;
+        }
+
+        /* Input and Textarea Styling */
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background-color: rgba(15, 15, 15, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 12px 15px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: normal;
+            transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e4be57;
+            background-color: rgba(10, 10, 10, 0.9);
+            box-shadow: 0 0 10px rgba(228, 190, 87, 0.2);
+        }
+
+        .form-group select option {
+            background-color: #121212;
+            color: #fff;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 110px;
+            font-family: sans-serif;
+            font-weight: normal;
+        }
+
+        /* Submit Button Style */
+        .submit-btn {
+            width: 100%;
+            background-color: #e4be57;
+            color: #121212;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            text-transform: uppercase;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(228, 190, 87, 0.2);
+        }
+
+        .submit-btn:hover {
+            background-color: #bd9543;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(228, 190, 87, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Success Popups Styling */
+        .copy-popup {
+            position: fixed;
+            bottom: 25px;
+            right: -450px;
+            background-color: #a3e635;
+            color: #14532d;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copy-popup.show {
+            right: 25px;
+        }
+
+        /* Keyframe Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 600px) {
+            .top-navigation {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay loop muted playsinline class="video-background">
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
+    <div class="video-overlay"></div>
+
+    <div class="hero-wrapper">
+        
+        <div class="top-navigation">
+            <nav class="navbar">
+                <a href="index.html">Home</a>
+                <a href="rules.html">Rules</a>
+                <a href="staff.html">Staff</a>
+                <a href="yt-apps.html" class="active">Yt Applications</a>
+            </nav>
+            
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+
+        <header class="main-header">
+            <div class="header-box left-box" onclick="copyIP()">
+                <div class="icon-circle"><i class="fas fa-play"></i></div>
+                <div class="box-text">
+                    <h3>BANANASMP.MCSH.IO</h3>
+                    <p id="ip-text">Copy IP</p>
+                </div>
+            </div>
+
+            <div class="logo-container">
+                <a href="index.html"><img src="logo.png" alt="Banana SMP Logo" class="main-logo"></a>
+            </div>
+
+            <div class="header-box right-box" onclick="window.open('https://discord.gg/Jwrk9y2Ape', '_blank');">
+                <div class="box-text text-right">
+                    <h3>DISCORD SERVER</h3>
+                    <p>Join Now</p>
+                </div>
+                <div class="icon-circle"><i class="fab fa-discord"></i></div>
+            </div>
+        </header>
+
+        <h2 class="form-title">YouTube Application</h2>
+        
+        <div class="form-container">
+            <form id="ytForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-gamepad"></i> Minecraft Username (IGN):</label>
+                    <input type="text" id="username" placeholder="Enter your in-game name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="discord"><i class="fab fa-discord"></i> Discord Username & Tag:</label>
+                    <input type="text" id="discord" placeholder="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="channel"><i class="fab fa-youtube"></i> YouTube Channel Link:</label>
+                    <input type="url" id="channel" placeholder="https://youtube.com/c/yourchannel" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subs"><i class="fas fa-users"></i> Subscriber Count:</label>
+                    <input type="number" id="subs" placeholder="e.g. 500" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="views"><i class="fas fa-eye"></i> How many views did your last video get?</label>
+                    <input type="text" id="views" placeholder="e.g. 1,200 views" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="hasVideo"><i class="fas fa-video"></i> Have you already uploaded a video about BananaSMP?</label>
+                    <select id="hasVideo" required>
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="Yes">Yes, I have already uploaded ✅</option>
+                        <option value="No">No, I haven't uploaded yet ❌</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="why"><i class="fas fa-question-circle"></i> Why do you want Media Rank on BananaSMP?</label>
+                    <textarea id="why" placeholder="Tell us about your content plans and goals on our server..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Application 🚀</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="copy-toast" class="copy-popup">
+        <i class="fas fa-check-circle"></i> Server IP copied to clipboard!
+    </div>
+
+    <div id="submit-toast" class="copy-popup" style="background-color: #38bdf8; color: #0369a1;">
+        <i class="fas fa-paper-plane"></i> Application submitted successfully!
+    </div>
+
+    <script>
+        // IP Copying Function
+        function copyIP() {
+            const ip = "BANANASMP.MCSH.IO";
+            navigator.clipboard.writeText(ip).then(() => {
+                const ipText = document.getElementById("ip-text");
+                ipText.innerText = "Copied!";
+                ipText.style.color = "#a3e635"; 
+                
+                const popup = document.getElementById("copy-toast");
+                popup.classList.add("show");
+                
+                setTimeout(() => {
+                    popup.classList.remove("show");
+                    ipText.innerText = "Copy IP";
+                    ipText.style.color = "#e4be57";
+                }, 3000);
+            }).catch(err => {
+                console.error("IP copy error: ", err);
+            });
+        }
+
+        // Webhook Submission Function
+        function handleFormSubmit(event) {
+            event.preventDefault(); 
+            
+            const username = document.getElementById("username").value;
+            const discord = document.getElementById("discord").value;
+            const channel = document.getElementById("channel").value;
+            const subs = document.getElementById("subs").value;
+            const views = document.getElementById("views").value;
+            const hasVideo = document.getElementById("hasVideo").value;
+            const why = document.getElementById("why").value;
+
+            // Updated Webhook URL
+            const webhookUrl = "https://discord.com/api/webhooks/1522047834138869964/A303U7UYDO6J2i-UXP9o-tzAl3DfISm8butSEM0KkhMWjh4a92WNaSkZbA0N9dyPznRe";
+
+            const discordMessage = {
+                username: "BananaSMP YT Applications",
+                avatar_url: "https://i.imgur.com/8Nn6SgR.png", 
+                embeds: [{
+                    title: "🎥 New YouTube Application Submitted!",
+                    color: 14991063, 
+                    fields: [
+                        { name: "🎮 Minecraft IGN", value: username, inline: true },
+                        { name: "💬 Discord Username", value: discord, inline: true },
+                        { name: "📊 Subscribers Count", value: subs, inline: true },
+                        { name: "👀 Last Video Views", value: views, inline: true },
+                        { name: "🎬 BananaSMP Video Uploaded?", value: hasVideo, inline: true },
+                        { name: "🔗 Channel Link", value: channel },
+                        { name: "❓ Why Media Rank?", value: why }
+                    ],
+                    footer: {
+                        text: "BananaSMP Media System"
+                    },
+                    timestamp: new Date()
+                }]
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(discordMessage)
+            })
+            .then(response => {
+                if (response.ok) {
+                    const submitToast = document.getElementById("submit-toast");
+                    submitToast.classList.add("show");
+                    
+                    document.getElementById("ytForm").reset();
+                    
+                    setTimeout(() => {
+                        submitToast.classList.remove("show");
+                        location.href = 'index.html';
+                    }, 3000);
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Error sending to discord:", error);
+                alert("Could not submit application. Check your connection.");
+            });
+        }
+    </script>
+
+</body>
+</html>
